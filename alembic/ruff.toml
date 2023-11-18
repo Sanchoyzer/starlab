@@ -1,0 +1,5 @@
+extend = '../pyproject.toml'
+extend-ignore = [
+    'INP001',  # File `%file%` is part of an implicit namespace package. Add an `__init__.py`
+    'ERA001',  # Found commented-out code
+]

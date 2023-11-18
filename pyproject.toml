@@ -1,0 +1,119 @@
+[tool.ruff]
+target-version = 'py311'
+line-length = 100
+exclude = [
+    '.git',
+    '.venv',
+    '.mypy_cache',
+    '.pytest_cache',
+    '.github',
+]
+select = ['ALL']
+ignore = [
+    'ANN101',  # missing-type-self
+    'EM',  # flake8-errmsg
+    'D100', 'D101', 'D102', 'D103', 'D104', 'D105', 'D106', 'D107', 'D203', 'D212',  # pydocstyle
+    'TRY003',  # Avoid specifying long messages outside the exception class
+    'PD011',  # False positive, see https://github.com/astral-sh/ruff/issues/2480
+    'DTZ003',  # The use of `datetime.datetime.utcnow()` is not allowed, use `datetime.datetime.now(tz=)` instead
+    'TD002', 'TD003',  # Missing author/issue link for TODO
+    'FIX',  # flake8-fixme
+    'PD901',  # `df` is a bad variable name. Be kinder to your future self.
+]
+
+[tool.ruff.flake8-quotes]
+inline-quotes = 'single'
+
+[tool.ruff.isort]
+lines-after-imports = 2
+known-first-party = ['app']
+
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+exclude = '''
+/(
+  | \.git
+  | \.venv
+  | \.mypy_cache
+  | \.pytest_cache
+  | \.ruff_cache
+  | \.github
+)/
+'''
+skip-string-normalization = true
+
+
+[tool.mypy]
+python_version = '3.11'
+show_error_context = true
+check_untyped_defs = true
+ignore_missing_imports = true
+exclude = [
+    '^.git/',
+    '^.venv/',
+    '^.mypy_cache/',
+    '^.pytest_cache/',
+    '^.ruff_cache/',
+    '^.github/',
+]
+plugins = ['pydantic.mypy']
+
+
+[tool.bandit]
+exclude_dirs = ['tests',]
+
+
+[tool.pytest.ini_options]
+minversion = '6.0'
+addopts = '-s'
+asyncio_mode = 'auto'
+testpaths = [
+    'tests',
+]
+
+
+[tool.poetry]
+name = 'starlab'
+version = '0.1.0'
+description = 'My test task'
+authors = ['Sanchoyzer <412738+Sanchoyzer@users.noreply.github.com>']
+readme = 'README.md'
+repository = 'https://github.com/Sanchoyzer/starlab'
+
+[tool.poetry.dependencies]
+python = '^3.11'
+aiohttp = '^3.8.6'
+aiohttp-pydantic = '^2.0.0'
+pydantic-settings = '^2.1.0'
+sentry-sdk = '^1.35.0'
+sqlalchemy = {extras = ['asyncio'], version = '^2.0.23'}
+asyncpg = '^0.29.0'
+gunicorn = '^21.2.0'
+alembic = '^1.12.1'
+openpyxl = '^3.1.2'
+
+[tool.poetry.group.dev.dependencies]
+ruff = '^0.1.6'
+black = '^23.11.0'
+bandit = '^1.7.5'
+mypy = '^1.7.0'
+types-setuptools = '^68.0.0.3'
+types-pygments = '^2.16.0.1'
+types-colorama = '^0.4.15.12'
+
+
+[tool.poetry.group.test.dependencies]
+faker = '^19.13.0'
+pytest = '^7.4.3'
+pytest-sugar = '^0.9.7'
+pytest-cov = '^4.1.0'
+pytest-repeat = '^0.9.1'
+pytest-aiohttp = '^1.0.5'
+pytest-asyncio = '^0.21.1'
+
+
+[build-system]
+requires = ['poetry-core']
+build-backend = 'poetry.core.masonry.api'

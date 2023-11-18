@@ -1,0 +1,152 @@
+name: linters & tests
+
+on:
+  push:
+    paths:
+      - '.github/**/*'
+      - 'pyproject.toml'
+      - 'poetry.lock'
+      - 'Dockerfile'
+      - 'app/**/*'
+      - 'tests/**/*'
+      - 'alembic/**/*'
+  workflow_dispatch:
+
+
+env:
+  CI: true
+  DOCKER_IMAGE: starlab
+
+
+jobs:
+  notify-start:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a '${{ github.event_name }}' event for '${{ github.ref }}' branch"
+
+  python-linters:
+    needs: [ notify-start ]
+    runs-on: ubuntu-latest
+    env:
+      PROJ_PATH: ./app
+      TESTS_PATH: ./tests
+      ALEMBIC_PATH: ./alembic
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'poetry'
+
+      - name: Install Dependencies
+        run: |
+          poetry env use 3.11
+          poetry install
+
+      - name: Run Black
+        run: poetry run black --check --diff $PROJ_PATH $TESTS_PATH $ALEMBIC_PATH
+
+      - name: Run Ruff
+        run: poetry run ruff --output-format github $PROJ_PATH $TESTS_PATH $ALEMBIC_PATH
+
+      - name: Run mypy
+        run: poetry run mypy $PROJ_PATH $TESTS_PATH $ALEMBIC_PATH
+
+      - name: Run Bandit
+        run: poetry run bandit -c pyproject.toml --silent -r $PROJ_PATH
+
+  python-tests:
+    needs: [ notify-start ]
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'poetry'
+
+      - name: Install Dependencies
+        run: |
+          poetry env use 3.11
+          poetry install
+
+      - name: Run tests
+        run: |
+          poetry run alembic upgrade head
+          poetry run python -m pytest
+
+  push-docker-image:
+    needs: [ python-linters, python-tests ]
+    runs-on: ubuntu-latest
+    env:
+        TARGET: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Docker meta
+        id: meta
+        run: |
+          now=$(date +"%Y_%m_%d_%H_%M_%S")
+          sha=$(echo $GITHUB_SHA | head -c7)
+          echo "image=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE }}:$sha" >> $GITHUB_OUTPUT
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        if: ${{ github.ref_name == 'master' }}
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.image }}
+          cache-from: type=gha, scope=${{ github.workflow }}
+          cache-to: type=gha, scope=${{ github.workflow }}
+          provenance: false
+
+      - name: Update the "latest" tag
+        if: ${{ github.ref_name == 'master' }}
+        run: |
+          LATEST_TAG=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE }}:latest
+          docker manifest create $LATEST_TAG ${{ steps.meta.outputs.image }}
+          docker manifest push --purge $LATEST_TAG
+
+  notify-finish:
+    needs: [ push-docker-image ]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This job's status is '${{ job.status }}'"
