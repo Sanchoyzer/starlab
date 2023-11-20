@@ -1511,6 +1511,7 @@ files = [
 
 [package.dependencies]
 certifi = "*"
+sqlalchemy = {version = ">=1.2", optional = true, markers = "extra == \"sqlalchemy\""}
 urllib3 = {version = ">=1.26.11", markers = "python_version >= \"3.6\""}
 
 [package.extras]
@@ -1859,4 +1860,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "8c1bc8e8badb4eb2c2885f9bf98c187afcb740ca4309d26936058d983f415632"
+content-hash = "0183bb16ec1a75d7addb528be24f1353e5e581b64ccaec3b464b1587692385ac"

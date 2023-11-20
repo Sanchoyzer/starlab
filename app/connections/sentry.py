@@ -1,6 +1,8 @@
 import sentry_sdk
 from pydantic import HttpUrl
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
+from sentry_sdk.integrations.asyncio import AsyncioIntegration
+from sentry_sdk.integrations.asyncpg import AsyncPGIntegration
 
 
 def setup_sentry(
@@ -13,6 +15,8 @@ def setup_sentry(
     ignore_errors = ignore_errors or []
     integrations = [
         AioHttpIntegration(),
+        AsyncioIntegration(),
+        AsyncPGIntegration(),
     ]
     sentry_sdk.init(
         dsn=str(dsn),
