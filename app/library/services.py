@@ -65,7 +65,7 @@ class BookService:
         except Exception as exc:  # noqa: BLE001
             raise BookImportError(repr(exc)) from exc
 
-        async with (async_session() as session):
+        async with async_session() as session:
             query = (
                 update(Book)
                 .where(or_(Book.name.in_(names), Book.author.in_(authors)))
