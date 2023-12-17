@@ -37,6 +37,14 @@ tests:
 	TARGET=test ${DC} up --build --remove-orphans --exit-code-from app
 
 
+.PHONY: tests_performance
+tests_performance:
+	make up
+	sleep 3
+	locust --config tests/performance/locust.conf
+	make down
+
+
 ### poerty wrappers ###
 
 .PHONY: install

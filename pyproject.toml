@@ -114,6 +114,10 @@ pytest-aiohttp = '^1.0.5'
 pytest-asyncio = '^0.21.1'
 
 
+[tool.poetry.group.test_performance.dependencies]
+locust = '^2.20.0'
+
+
 [build-system]
 requires = ['poetry-core']
 build-backend = 'poetry.core.masonry.api'

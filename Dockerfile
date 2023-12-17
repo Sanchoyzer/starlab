@@ -9,7 +9,7 @@ ENV PYTHONPATH=/srv/src
 WORKDIR /srv/src
 
 COPY pyproject.toml poetry.lock ./
-RUN poetry install --no-cache --without=dev,test  \
+RUN poetry install --no-cache --only=main  \
     && rm -rf /root/.cache
 
 COPY app ./app

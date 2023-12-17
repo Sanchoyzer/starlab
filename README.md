@@ -44,6 +44,9 @@ CI: [GitHub Actions](https://github.com/Sanchoyzer/starlab/actions)
 #### ... run tests ####
 `make tests`
 
+#### ... run performance tests ####
+`make tests_performance`
+
 #### ... run linters (locally) ####
 `make check`
 
