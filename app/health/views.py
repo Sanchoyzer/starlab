@@ -1,7 +1,10 @@
 from aiohttp import web
+from aiohttp_pydantic import PydanticView
+from aiohttp_pydantic.oas.typing import r200
 
 from app.settings import conf
 
 
-async def handle_health(request: web.Request) -> web.Response:  # noqa: ARG001
-    return web.json_response({'version': conf.SPEC_VERSION})
+class HealthView(PydanticView):
+    async def get(self) -> r200[web.Response]:
+        return web.json_response({'version': conf.SPEC_VERSION})

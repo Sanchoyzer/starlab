@@ -5,7 +5,7 @@ from uuid import UUID
 from aiohttp import web
 from aiohttp.web_exceptions import HTTPBadRequest, HTTPCreated, HTTPOk
 from aiohttp_pydantic import PydanticView
-from aiohttp_pydantic.oas.typing import r200, r201, r404
+from aiohttp_pydantic.oas.typing import r200, r201, r400, r404
 from pydantic import Field
 
 from app.library.exceptions import BookImportError, BookNotFoundError
@@ -72,7 +72,7 @@ class BookView(BaseView):
 class BookImportView(BaseView):
     service = BookService
 
-    async def post(self) -> web.Response:
+    async def post(self) -> r200[web.Response] | r400:
         try:
             reader = await self.request.multipart()
         except Exception as exc:  # noqa: BLE001
