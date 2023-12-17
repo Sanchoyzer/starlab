@@ -1,4 +1,4 @@
-FROM python:3.11.2-slim as base
+FROM python:3.11.7-slim as base
 RUN python -m pip install --upgrade --no-cache-dir pip wheel setuptools \
     && python -m pip install poetry \
     && poetry config virtualenvs.create false \
