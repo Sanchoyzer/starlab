@@ -14,8 +14,6 @@ ignore = [
     'EM',  # flake8-errmsg
     'D100', 'D101', 'D102', 'D103', 'D104', 'D105', 'D106', 'D107', 'D203', 'D212',  # pydocstyle
     'TRY003',  # Avoid specifying long messages outside the exception class
-    'PD011',  # False positive, see https://github.com/astral-sh/ruff/issues/2480
-    'DTZ003',  # The use of `datetime.datetime.utcnow()` is not allowed, use `datetime.datetime.now(tz=)` instead
     'TD002', 'TD003',  # Missing author/issue link for TODO
     'FIX',  # flake8-fixme
     'PD901',  # `df` is a bad variable name. Be kinder to your future self.
@@ -27,6 +25,19 @@ inline-quotes = 'single'
 [tool.ruff.isort]
 lines-after-imports = 2
 known-first-party = ['app']
+
+[tool.ruff.extend-per-file-ignores]
+'tests/*' = [
+    'ANN',  # flake8-annotations\
+    'ARG001',  # Unused function argument: %s
+    'INP001',  # File %s is part of an implicit namespace package. Add an `__init__.py`
+    'PT001',  # Use @pytest.fixture{expected} over @pytest.fixture{actual}
+    'PT004',  # Fixture %s does not return anything, add leading underscore
+    'PT018',  # Assertion should be broken down into multiple parts
+    'PLR0913',  # Too many arguments to function call
+    'S101',  # Use of assert detected
+    'SLF001',  # Private member accessed
+]
 
 
 [tool.black]
