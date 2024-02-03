@@ -30,13 +30,16 @@ known-first-party = ['app']
 'tests/*' = [
     'ANN',  # flake8-annotations\
     'ARG001',  # Unused function argument: %s
-    'INP001',  # File %s is part of an implicit namespace package. Add an `__init__.py`
     'PT001',  # Use @pytest.fixture{expected} over @pytest.fixture{actual}
     'PT004',  # Fixture %s does not return anything, add leading underscore
     'PT018',  # Assertion should be broken down into multiple parts
     'PLR0913',  # Too many arguments to function call
     'S101',  # Use of assert detected
     'SLF001',  # Private member accessed
+]
+'alembic/*' = [
+    'INP001',  # File `%file%` is part of an implicit namespace package. Add an `__init__.py`
+    'ERA001',  # Found commented-out code
 ]
 
 
@@ -78,7 +81,7 @@ exclude_dirs = ['tests',]
 
 [tool.pytest.ini_options]
 minversion = '6.0'
-addopts = '-s'
+addopts = '-s --dup-fixtures'
 asyncio_mode = 'auto'
 testpaths = [
     'tests',
@@ -114,7 +117,6 @@ types-setuptools = '^68.0.0.3'
 types-pygments = '^2.16.0.1'
 types-colorama = '^0.4.15.12'
 
-
 [tool.poetry.group.test.dependencies]
 faker = '^19.13.0'
 pytest = '^7.4.3'
@@ -123,7 +125,8 @@ pytest-cov = '^4.1.0'
 pytest-repeat = '^0.9.1'
 pytest-aiohttp = '^1.0.5'
 pytest-asyncio = '^0.21.1'
-
+pytest-randomly = '^3.15.0'
+pytest-deadfixtures = '^2.2.1'
 
 [tool.poetry.group.test_performance.dependencies]
 locust = '^2.20.0'

@@ -18,6 +18,10 @@ black:
 ruff:
 	ruff ${PROJ_PATH} ${TESTS_PATH} ${ALEMBIC_PATH}
 
+.PHONY: ruff_fix
+ruff_fix:
+	ruff --fix ${PROJ_PATH} ${TESTS_PATH} ${ALEMBIC_PATH}
+
 .PHONY: mypy
 mypy:
 	mypy ${PROJ_PATH} ${TESTS_PATH} ${ALEMBIC_PATH}
@@ -34,7 +38,8 @@ check: black ruff mypy bandit
 
 .PHONY: tests
 tests:
-	TARGET=test ${DC} up --build --remove-orphans --exit-code-from app
+	pytest --cov-report term-missing --cov=app --durations=3
+	pytest --dead-fixtures
 
 
 .PHONY: tests_performance
@@ -70,6 +75,11 @@ up:
 .PHONY: up_live
 up_live:
 	${DC} up --build --remove-orphans
+
+
+.PHONY: up_db
+up_db:
+	${DC} up --build -d --remove-orphans postgres
 
 
 .PHONY: down
