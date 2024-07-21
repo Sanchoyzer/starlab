@@ -2,7 +2,7 @@ from datetime import date, datetime
 from enum import StrEnum, unique
 from uuid import UUID, uuid4
 
-from sqlalchemy import func, sql
+from sqlalchemy import Enum, MetaData, func, sql
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -22,7 +22,15 @@ class GenreType(StrEnum):
 
 
 class Base(AsyncAttrs, DeclarativeBase):
-    pass
+    metadata = MetaData(
+        naming_convention={
+            'ix': 'ix_%(column_0_label)s',
+            'uq': 'uq_%(table_name)s_%(column_0_name)s_%(column_1_name)s_%(column_2_name)s',
+            'ck': 'ck_%(table_name)s_`%(constraint_name)s`',
+            'fk': 'fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s',
+            'pk': 'pk_%(table_name)s',
+        },
+    )
 
 
 class BaseEntity(Base):
@@ -39,7 +47,10 @@ class Book(BaseEntity):
     name: Mapped[str] = mapped_column(index=True)
     author: Mapped[str] = mapped_column(index=True)
     published_at: Mapped[date]
-    genre: Mapped[GenreType] = mapped_column(index=True)
+    genre: Mapped[GenreType] = mapped_column(
+        Enum(*list(GenreType._value2member_map_.keys()), name='book_genre_enum', schema='library'),
+        index=True,
+    )
     url: Mapped[str]
     available_for_view: Mapped[bool] = mapped_column(server_default=sql.true())
     available_for_download: Mapped[bool] = mapped_column(server_default=sql.true())

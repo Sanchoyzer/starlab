@@ -10,6 +10,7 @@ Create Date: 2023-11-19 13:01:50.284807
 from collections.abc import Sequence
 
 import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
 
 from alembic import op
 
@@ -23,6 +24,21 @@ depends_on: str | Sequence[str] | None = None
 
 def upgrade() -> None:
     op.execute('CREATE SCHEMA IF NOT EXISTS library')
+
+    sa.Enum(
+        'Novel',
+        'Detective',
+        'Fantasy',
+        'Science Fiction',
+        'Horror',
+        'Adventure',
+        'Popular Science',
+        'Religious Literature',
+        'Non-fiction',
+        'Poetry',
+        name='book_genre_enum',
+        schema='library',
+    ).create(op.get_bind())
     op.create_table(
         'book',
         sa.Column('name', sa.String(), nullable=False),
@@ -30,18 +46,20 @@ def upgrade() -> None:
         sa.Column('published_at', sa.Date(), nullable=False),
         sa.Column(
             'genre',
-            sa.Enum(
-                'NOVEL',
-                'DETECTIVE',
-                'FANTASY',
-                'SCIENCE_FICTION',
-                'HORROR',
-                'ADVENTURE',
-                'POPULAR_SCIENCE',
-                'RELIGIOUS_LITERATURE',
-                'NON_FICTION',
-                'POETRY',
-                name='genretype',
+            postgresql.ENUM(
+                'Novel',
+                'Detective',
+                'Fantasy',
+                'Science Fiction',
+                'Horror',
+                'Adventure',
+                'Popular Science',
+                'Religious Literature',
+                'Non-fiction',
+                'Poetry',
+                name='book_genre_enum',
+                schema='library',
+                create_type=False,
             ),
             nullable=False,
         ),
@@ -60,7 +78,7 @@ def upgrade() -> None:
         ),
         sa.Column('uid', sa.Uuid(), nullable=False),
         sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
-        sa.PrimaryKeyConstraint('uid'),
+        sa.PrimaryKeyConstraint('uid', name=op.f('pk_book')),
         schema='library',
     )
     op.create_index(
@@ -85,4 +103,6 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_library_book_genre'), table_name='book', schema='library')
     op.drop_index(op.f('ix_library_book_author'), table_name='book', schema='library')
     op.drop_table('book', schema='library')
+    sa.Enum(name='book_genre_enum', schema='library').drop(op.get_bind(), checkfirst=False)
+
     op.execute('DROP SCHEMA IF EXISTS library')

@@ -20,7 +20,7 @@ ruff:
 
 .PHONY: ruff_fix
 ruff_fix:
-	ruff --fix ${PROJ_PATH} ${TESTS_PATH} ${ALEMBIC_PATH}
+	ruff check --fix ${PROJ_PATH} ${TESTS_PATH} ${ALEMBIC_PATH}
 
 .PHONY: mypy
 mypy:

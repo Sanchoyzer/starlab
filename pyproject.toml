@@ -42,6 +42,9 @@ known-first-party = ['app']
     'INP001',  # File `%file%` is part of an implicit namespace package. Add an `__init__.py`
     'ERA001',  # Found commented-out code
 ]
+'alembic/env.py' = [
+    'F401',  # `%s` imported but unused
+]
 
 
 [tool.black]
@@ -84,9 +87,7 @@ exclude_dirs = ['tests',]
 minversion = '6.0'
 addopts = '-s --dup-fixtures'
 asyncio_mode = 'auto'
-testpaths = [
-    'tests',
-]
+testpaths = ['tests',]
 
 
 [tool.poetry]
@@ -107,6 +108,7 @@ sqlalchemy = {extras = ['asyncio'], version = '^2.0.23'}
 asyncpg = '^0.29.0'
 gunicorn = '^22.0.0'
 alembic = '^1.12.1'
+alembic-postgresql-enum = '^1.1.2'
 openpyxl = '^3.1.2'
 
 [tool.poetry.group.dev.dependencies]
