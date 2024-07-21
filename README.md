@@ -28,6 +28,7 @@ CI: [GitHub Actions](https://github.com/Sanchoyzer/starlab/actions)
 - [docker-compose](https://docs.docker.com/compose/)
 - [poetry](https://python-poetry.org/docs/)
 - [make](https://www.gnu.org/software/make/)
+- [pre-commit](https://pre-commit.com/)
 
 
 ### How to ... ###
