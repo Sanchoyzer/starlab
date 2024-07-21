@@ -75,7 +75,7 @@ class BookImportView(BaseView):
     async def post(self) -> r200[web.Response] | r400:
         try:
             reader = await self.request.multipart()
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             raise BookImportError(repr(exc)) from exc
         while True:
             if (part_item := await reader.next()) is None:

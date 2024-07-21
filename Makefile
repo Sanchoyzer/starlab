@@ -16,7 +16,7 @@ black:
 
 .PHONY: ruff
 ruff:
-	ruff ${PROJ_PATH} ${TESTS_PATH} ${ALEMBIC_PATH}
+	ruff check --output-format=concise ${PROJ_PATH} ${TESTS_PATH} ${ALEMBIC_PATH}
 
 .PHONY: ruff_fix
 ruff_fix:

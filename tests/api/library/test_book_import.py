@@ -2,11 +2,11 @@ from pathlib import Path
 
 import openpyxl
 import pytest
+from _pytest.fixtures import SubRequest
 from aiohttp import web
 from aiohttp.test_utils import TestClient
 from aiohttp.web_exceptions import HTTPBadRequest, HTTPOk
 from faker import Faker
-from pytest_asyncio.plugin import SubRequest
 from sqlalchemy.ext.asyncio import AsyncSession
 from yarl import URL
 

@@ -22,7 +22,7 @@ def book_not_exist_url(app: web.Application, book_not_exist_uid) -> URL:
 
 @pytest.fixture
 def book_not_exist_uid(faker: Faker) -> UUID:
-    return faker.uuid4()
+    return faker.uuid4()  # type: ignore[return-value]
 
 
 async def test_book_get(client: TestClient, book_url: str, book_creation_data: dict) -> None:

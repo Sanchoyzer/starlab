@@ -62,7 +62,7 @@ class BookService:
 
             if not names and not authors:
                 raise ValueError('empty excel file')  # noqa: TRY301
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             raise BookImportError(repr(exc)) from exc
 
         async with async_session() as session:

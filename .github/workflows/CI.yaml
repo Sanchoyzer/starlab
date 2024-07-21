@@ -53,7 +53,7 @@ jobs:
         run: poetry run black --check --diff $PROJ_PATH $TESTS_PATH $ALEMBIC_PATH
 
       - name: Run Ruff
-        run: poetry run ruff --output-format github $PROJ_PATH $TESTS_PATH $ALEMBIC_PATH
+        run: poetry run ruff check --output-format=github $PROJ_PATH $TESTS_PATH $ALEMBIC_PATH
 
       - name: Run mypy
         run: poetry run mypy $PROJ_PATH $TESTS_PATH $ALEMBIC_PATH
