@@ -121,7 +121,7 @@ types-pygments = '^2.16.0.1'
 types-colorama = '^0.4.15.12'
 
 [tool.poetry.group.test.dependencies]
-faker = '^26.0.0'
+faker = '^26.1.0'
 pytest = '^8.3.1'
 pytest-sugar = '^1.0.0'
 pytest-cov = '^5.0.0'
