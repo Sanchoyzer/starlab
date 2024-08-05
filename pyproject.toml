@@ -132,7 +132,7 @@ pytest-randomly = '^3.15.0'
 pytest-deadfixtures = '^2.2.1'
 
 [tool.poetry.group.test_performance.dependencies]
-locust = '^2.20.0'
+locust = '^2.30.0'
 
 
 [build-system]
