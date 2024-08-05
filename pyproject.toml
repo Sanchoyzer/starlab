@@ -100,7 +100,7 @@ repository = 'https://github.com/Sanchoyzer/starlab'
 
 [tool.poetry.dependencies]
 python = '^3.11'
-aiohttp = '^3.8.6'
+aiohttp = '^3.10.1'
 aiohttp-pydantic = '^2.0.0'
 pydantic-settings = '^2.1.0'
 sentry-sdk = '^2.10.0'
