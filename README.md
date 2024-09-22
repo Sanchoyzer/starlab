@@ -1,7 +1,7 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Sanchoyzer/starlab)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Sanchoyzer/starlab)
 
-[![Python](https://img.shields.io/badge/Python-3.11-3776AB.svg?style=flat&logo=python&logoColor=ffdd54)](https://www.python.org)
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB.svg?style=flat&logo=python&logoColor=ffdd54)](https://www.python.org)
 [![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?logo=githubactions&logoColor=white)](https://github.com/Sanchoyzer/starlab/actions)
 [![Sentry](https://img.shields.io/static/v1?message=Sentry&color=362D59&logo=Sentry&logoColor=FFFFFF&label=)](https://sentry.io)
 
