@@ -124,12 +124,12 @@ speedups = ["Brotli", "aiodns (>=3.2.0)", "brotlicffi"]
 
 [[package]]
 name = "aiohttp-pydantic"
-version = "2.2.2"
+version = "2.3.1"
 description = "Aiohttp View using pydantic to validate request body and query sting regarding method annotations."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "aiohttp_pydantic-2.2.2-py3-none-any.whl", hash = "sha256:528d1080a35b90aababd2c601361bcf4d85056980f6d4be246143e5f2e3081cb"},
+    {file = "aiohttp_pydantic-2.3.1-py3-none-any.whl", hash = "sha256:5bdee83ecdde14935f92372feed8c8faf604706af44fe7e27706e1a796dbc176"},
 ]
 
 [package.dependencies]
@@ -2799,4 +2799,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "6ff4f07935f8d831c135b4b10c6b88ba5cb6d6fe06258ce78038572b4f5f68f9"
+content-hash = "e48bebddc58b207496340c08759d0c2429ec52b1243042858735445db9503fdc"
